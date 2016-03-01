@@ -1,10 +1,5 @@
 namespace HardwareSignalsLibrary.IO.Hardware
 {
-    public class HardwareInputOutputSystem
-    {
-        private IHardwareSignals hardwareSignals;
-    }
-
     public class EmptyHardwareSignals : IHardwareSignals
     {
         private readonly int[] analogInputs;
@@ -88,6 +83,11 @@ namespace HardwareSignalsLibrary.IO.Hardware
         public int DigitalIndicatorsCount
         {
             get { return digitalIndicators.Length; }
+        }
+
+        public void Dispose()
+        {
+            Stop();
         }
     }
 }

@@ -112,5 +112,10 @@ namespace HardwareSignalsLibrary.Interceptor.HardwareSignals
         {
             get { return baseSignalsWrapper.DigitalIndicatorsCount; }
         }
+
+        public void Dispose()
+        {
+            baseSignalsWrapper.Dispose();
+        }
     }
 }

@@ -2,6 +2,8 @@ namespace HardwareSignalsLibrary.IO
 {
     public interface IInputReader
     {
-        T Get<T>(string key);
+        float ReadAnalogInput(string key);
+
+        bool ReadDigitalInput(string key);
     }
 }

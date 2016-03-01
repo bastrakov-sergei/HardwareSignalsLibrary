@@ -1,6 +1,8 @@
-﻿namespace HardwareSignalsLibrary.IO.Hardware
+﻿using System;
+
+namespace HardwareSignalsLibrary.IO.Hardware
 {             
-    public interface IHardwareSignals
+    public interface IHardwareSignals : IDisposable
     {
         void Start();
         void Stop();

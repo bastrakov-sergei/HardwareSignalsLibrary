@@ -38,10 +38,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interceptor\IO\IOutputInterceptor.cs" />
+    <Compile Include="Interceptor\IO\IInputInterceptor.cs" />
     <Compile Include="IO\DefaultInputReader.cs" />
     <Compile Include="IO\DefaultOutputWriter.cs" />
     <Compile Include="IO\Hardware\EmptyHardwareSignals.cs" />
     <Compile Include="IO\Hardware\HardwareInputConfiguration.cs" />
+    <Compile Include="IO\Hardware\HardwareInputOutput.cs" />
     <Compile Include="IO\IInputOutputSystem.cs" />
     <Compile Include="IO\IInputReader.cs" />
     <Compile Include="IO\Hardware\IHardwareSignals.cs" />

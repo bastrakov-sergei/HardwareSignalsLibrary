@@ -2,9 +2,14 @@ namespace HardwareSignalsLibrary.IO
 {
     public class DefaultInputReader : IInputReader
     {
-        public T Get<T>(string key)
+        public float ReadAnalogInput(string key)
         {
-            return default(T);
+            return 0.0f;
+        }
+
+        public bool ReadDigitalInput(string key)
+        {
+            return false;
         }
     }
 }

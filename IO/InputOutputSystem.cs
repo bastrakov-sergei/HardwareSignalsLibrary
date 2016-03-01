@@ -1,6 +1,6 @@
 namespace HardwareSignalsLibrary.IO
 {
-    public class InputOutputSystem : IInputOutputSystem, IInputReader, IOutputWriter
+    public class InputOutputSystem : IInputOutputSystem
     {
         private IInputReader inDictionary = new DefaultInputReader();
         private IOutputWriter outDictionary = new DefaultOutputWriter();
@@ -15,16 +15,6 @@ namespace HardwareSignalsLibrary.IO
         {
             get { return outDictionary; }
             set { outDictionary = value; }
-        }
-
-        public T Get<T>(string key)
-        {
-            return inDictionary.Get<T>(key);
-        }
-
-        public void Set<T>(string key, T value)
-        {
-            outDictionary.Set(key, value);
         }
     }                
 }
