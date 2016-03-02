@@ -1,20 +1,45 @@
 namespace HardwareSignalsLibrary.IO
-{
+{              
     public class InputOutputSystem : IInputOutputSystem
     {
-        private IInputReader inDictionary = new DefaultInputReader();
-        private IOutputWriter outDictionary = new DefaultOutputWriter();
+        private readonly InputReaderProxy inputReaderProxy = new InputReaderProxy();
+        private readonly OutputWriterProxy outputWriterProxy = new OutputWriterProxy();
 
         public IInputReader In
         {
-            get { return inDictionary; }
-            set { inDictionary = value; }
+            get { return inputReaderProxy; }
+            set { inputReaderProxy.BaseInputReader = value; }
         }
 
         public IOutputWriter Out
         {
-            get { return outDictionary; }
-            set { outDictionary = value; }
+            get { return outputWriterProxy; }
+            set { outputWriterProxy.BaseOutputWriter = value; }
+        }
+
+        public float ReadAnalogInput(string key)
+        {
+            return ((IInputReader) inputReaderProxy).ReadAnalogInput(key);
+        }
+
+        public bool ReadDigitalInput(string key)
+        {
+            return ((IInputReader) inputReaderProxy).ReadDigitalInput(key);
+        }
+
+        public void WriteAnalogOuput(string key, float value)
+        {
+            ((IOutputWriter) outputWriterProxy).WriteAnalogOuput(key, value);
+        }
+
+        public void WriteDigitalOuput(string key, bool value)
+        {
+            ((IOutputWriter) outputWriterProxy).WriteDigitalOuput(key, value);
+        }
+
+        public void WriteDigitalIndicator(string key, byte value)
+        {
+            ((IOutputWriter) outputWriterProxy).WriteDigitalIndicator(key, value);
         }
     }                
 }

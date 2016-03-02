@@ -1,44 +1,92 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace HardwareSignalsLibrary.IO.Hardware
 {
-    public sealed class HardwareInputConfiguration
+    [Serializable]
+    public class HardwareInputOutputConfiguration 
     {
-        private IDictionary<string, int> analogInputsConfiguration = new Dictionary<string, int>();
-        private IDictionary<string, int> digitalInputsConfiguration = new Dictionary<string, int>();
-        private IDictionary<string, int> analogOutputsConfiguration = new Dictionary<string, int>();
-        private IDictionary<string, int> digitalOutputsConfiguration = new Dictionary<string, int>();
-        private IDictionary<string, int> indicatorsConfiguration = new Dictionary<string, int>();
-        public IHardwareSignals Signals { get; set; }
-
-        public IDictionary<string, int> AnalogInputsConfiguration
+        private class HardwareInputOutputConfigurationJsonSection
         {
-            get { return analogInputsConfiguration; }
-            set { analogInputsConfiguration = value; }
+            public string Name { get; set; }
+            public Dictionary<string, int> Config { get; set; }
         }
 
-        public IDictionary<string, int> DigitalInputsConfiguration
+        public Dictionary<string, int> AnalogInputsConfiguration = new Dictionary<string, int>();
+        public Dictionary<string, int> DigitalInputsConfiguration = new Dictionary<string, int>();
+        public Dictionary<string, int> AnalogOutputsConfiguration = new Dictionary<string, int>();
+        public Dictionary<string, int> DigitalOutputsConfiguration = new Dictionary<string, int>();
+        public Dictionary<string, int> IndicatorsConfiguration = new Dictionary<string, int>();
+
+
+        public string ToJson()
         {
-            get { return digitalInputsConfiguration; }
-            set { digitalInputsConfiguration = value; }
+            return JsonConvert.SerializeObject(new[]
+            {
+                new HardwareInputOutputConfigurationJsonSection
+                {
+                    Name = "analogInputsConfiguration",
+                    Config = AnalogInputsConfiguration
+                },
+                new HardwareInputOutputConfigurationJsonSection
+                {
+                    Name = "analogOutputsConfiguration",
+                    Config = AnalogOutputsConfiguration
+                },
+                new HardwareInputOutputConfigurationJsonSection
+                {
+                    Name = "digitalInputsConfiguration",
+                    Config = DigitalInputsConfiguration
+                },
+                new HardwareInputOutputConfigurationJsonSection
+                {
+                    Name = "digitalOutputsConfiguration",
+                    Config = DigitalOutputsConfiguration
+                },
+                new HardwareInputOutputConfigurationJsonSection
+                {
+                    Name = "indicatorsConfiguration",
+                    Config = IndicatorsConfiguration
+                }
+            }, Formatting.Indented);
         }
 
-        public IDictionary<string, int> AnalogOutputsConfiguration
+        public static HardwareInputOutputConfiguration FromJson(string json)
         {
-            get { return analogOutputsConfiguration; }
-            set { analogOutputsConfiguration = value; }
-        }
+            HardwareInputOutputConfiguration configuration = new HardwareInputOutputConfiguration();
+            HardwareInputOutputConfigurationJsonSection[] dictionaries =
+                JsonConvert.DeserializeObject<HardwareInputOutputConfigurationJsonSection[]>(json);
 
-        public IDictionary<string, int> DigitalOutputsConfiguration
-        {
-            get { return digitalOutputsConfiguration; }
-            set { digitalOutputsConfiguration = value; }
-        }
+            HardwareInputOutputConfigurationJsonSection configurationJsonSection;
 
-        public IDictionary<string, int> IndicatorsConfiguration
-        {
-            get { return indicatorsConfiguration; }
-            set { indicatorsConfiguration = value; }
+            configurationJsonSection = dictionaries.FirstOrDefault(s => s.Name == "analogInputsConfiguration");
+            configuration.AnalogInputsConfiguration = configurationJsonSection != null
+                ? configurationJsonSection.Config
+                : new Dictionary<string, int>();
+
+            configurationJsonSection = dictionaries.FirstOrDefault(s => s.Name == "analogOutputsConfiguration");
+            configuration.AnalogOutputsConfiguration = configurationJsonSection != null
+                ? configurationJsonSection.Config
+                : new Dictionary<string, int>();
+
+            configurationJsonSection = dictionaries.FirstOrDefault(s => s.Name == "digitalInputsConfiguration");
+            configuration.DigitalInputsConfiguration = configurationJsonSection != null
+                ? configurationJsonSection.Config
+                : new Dictionary<string, int>();
+
+            configurationJsonSection = dictionaries.FirstOrDefault(s => s.Name == "digitalOutputsConfiguration");
+            configuration.DigitalOutputsConfiguration = configurationJsonSection != null
+                ? configurationJsonSection.Config
+                : new Dictionary<string, int>();
+
+            configurationJsonSection = dictionaries.FirstOrDefault(s => s.Name == "indicatorsConfiguration");
+            configuration.IndicatorsConfiguration = configurationJsonSection != null
+                ? configurationJsonSection.Config
+                : new Dictionary<string, int>();
+
+            return configuration;
         }
     }
 }

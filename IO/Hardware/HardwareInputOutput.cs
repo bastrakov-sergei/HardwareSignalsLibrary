@@ -6,46 +6,51 @@ namespace HardwareSignalsLibrary.IO.Hardware
     public class HardwareInputOutput : IInputReader, IOutputWriter
     {
         private readonly IHardwareSignals hardwareSignals;
-        private readonly IDictionary<string, int> analogInputsConfiguration;
-        private readonly IDictionary<string, int> digitalInputsConfiguration;
-        private readonly IDictionary<string, int> analogOutputsConfiguration;
-        private readonly IDictionary<string, int> digitalOutputsConfiguration;
-        private readonly IDictionary<string, int> indicatorsConfiguration;
+        private HardwareInputOutputConfiguration configuration;
 
-        public HardwareInputOutput(HardwareInputConfiguration configuration)
+        public HardwareInputOutput(IHardwareSignals hardwareSignals)
         {
-            hardwareSignals = configuration.Signals;
+            this.hardwareSignals = hardwareSignals;
+        }
 
-            analogInputsConfiguration = configuration.AnalogInputsConfiguration;
-            digitalInputsConfiguration = configuration.DigitalInputsConfiguration;
-            analogOutputsConfiguration = configuration.AnalogOutputsConfiguration;
-            digitalOutputsConfiguration = configuration.DigitalOutputsConfiguration;
-            indicatorsConfiguration = configuration.IndicatorsConfiguration;
+        public void SetConfiguration(HardwareInputOutputConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
+        public void Start()
+        {
+            hardwareSignals.Start();
+        }
+
+        public void Stop()
+        {
+            hardwareSignals.Stop();
         }
 
         public float ReadAnalogInput(string key)
         {
-            return Read(analogInputsConfiguration, key, hardwareSignals.ReadAnalogInput);
+            return Read(configuration.AnalogInputsConfiguration, key, hardwareSignals.ReadAnalogInput);
         }
 
         public bool ReadDigitalInput(string key)
         {
-            return Read(digitalInputsConfiguration, key, hardwareSignals.ReadDigitalInput);
+            return Read(configuration.DigitalInputsConfiguration, key, hardwareSignals.ReadDigitalInput);
         }
 
         public void WriteAnalogOuput(string key, float value)
         {
-            Write(analogOutputsConfiguration, key, value, hardwareSignals.WriteAnalogOuput);
+            Write(configuration.AnalogOutputsConfiguration, key, value, hardwareSignals.WriteAnalogOutput);
         }
 
         public void WriteDigitalOuput(string key, bool value)
         {
-            Write(digitalOutputsConfiguration, key, value, hardwareSignals.WriteDigitalOuput);
+            Write(configuration.DigitalOutputsConfiguration, key, value, hardwareSignals.WriteDigitalOutput);
         }
 
         public void WriteDigitalIndicator(string key, byte value)
         {
-            Write(indicatorsConfiguration, key, value, hardwareSignals.WriteDigitalIndicator);
+            Write(configuration.IndicatorsConfiguration, key, value, hardwareSignals.WriteDigitalIndicator);
         }
 
         private static T Read<T>(IDictionary<string, int> conf, string key, Func<int, T> func)

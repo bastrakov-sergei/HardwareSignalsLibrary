@@ -1,3 +1,5 @@
+using System;
+
 namespace HardwareSignalsLibrary.IO.Hardware
 {
     public class EmptyHardwareSignals : IHardwareSignals
@@ -55,22 +57,23 @@ namespace HardwareSignalsLibrary.IO.Hardware
             get { return digitalInputs; }
         }
 
-        public void WriteDigitalOuput(int index, bool value)
+        public void WriteDigitalOutput(int index, bool value)
         {
             digitalOutputs[index] = value;
         }
 
-        public int DigitalOuputsCount
+        public int DigitalOutputsCount
         {
             get { return digitalOutputs.Length; }
         }
 
-        public void WriteAnalogOuput(int index, float value)
+        public void WriteAnalogOutput(int index, float value)
         {
+            throw new Exception("write " + index + " " + value);
             analogOutputs[index] = value;
         }
 
-        public int AnalogOuputsCount
+        public int AnalogOutputsCount
         {
             get { return analogOutputs.Length; }
         }

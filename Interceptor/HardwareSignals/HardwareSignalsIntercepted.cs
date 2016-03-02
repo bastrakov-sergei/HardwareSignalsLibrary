@@ -80,26 +80,26 @@ namespace HardwareSignalsLibrary.Interceptor.HardwareSignals
             }
         }
 
-        public void WriteDigitalOuput(int index, bool value)
+        public void WriteDigitalOutput(int index, bool value)
         {
             bool handledOutput = interceptor.WriteDigitalOuputHandle(index, value);
-            baseSignalsWrapper.WriteDigitalOuput(index, handledOutput);
+            baseSignalsWrapper.WriteDigitalOutput(index, handledOutput);
         }
 
-        public int DigitalOuputsCount
+        public int DigitalOutputsCount
         {
-            get { return baseSignalsWrapper.DigitalOuputsCount; }
+            get { return baseSignalsWrapper.DigitalOutputsCount; }
         }
 
-        public void WriteAnalogOuput(int index, float value)
+        public void WriteAnalogOutput(int index, float value)
         {
             float handledOutput = interceptor.WriteAnalogOuputHandle(index, value);
-            baseSignalsWrapper.WriteAnalogOuput(index, handledOutput);
+            baseSignalsWrapper.WriteAnalogOutput(index, handledOutput);
         }
 
-        public int AnalogOuputsCount
+        public int AnalogOutputsCount
         {
-            get { return baseSignalsWrapper.AnalogOuputsCount; }
+            get { return baseSignalsWrapper.AnalogOutputsCount; }
         }
 
         public void WriteDigitalIndicator(int index, byte value)
@@ -111,11 +111,6 @@ namespace HardwareSignalsLibrary.Interceptor.HardwareSignals
         public int DigitalIndicatorsCount
         {
             get { return baseSignalsWrapper.DigitalIndicatorsCount; }
-        }
-
-        public void Dispose()
-        {
-            baseSignalsWrapper.Dispose();
-        }
+        }                                
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace HardwareSignalsLibrary.IO.Hardware
+﻿namespace HardwareSignalsLibrary.IO.Hardware
 {             
-    public interface IHardwareSignals : IDisposable
+    public interface IHardwareSignals
     {
         void Start();
         void Stop();
@@ -15,11 +13,11 @@ namespace HardwareSignalsLibrary.IO.Hardware
         int DigitalInputsCount { get; }
         bool[] DigitalInputs { get; }
 
-        void WriteAnalogOuput(int index, float value);
-        int AnalogOuputsCount { get; }
+        void WriteAnalogOutput(int index, float value);
+        int AnalogOutputsCount { get; }
 
-        void WriteDigitalOuput(int index, bool value);
-        int DigitalOuputsCount { get; }
+        void WriteDigitalOutput(int index, bool value);
+        int DigitalOutputsCount { get; }
 
         void WriteDigitalIndicator(int index, byte value);
         int DigitalIndicatorsCount { get; }
